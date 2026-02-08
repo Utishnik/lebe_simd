@@ -33,6 +33,14 @@ default = ["simd"]
 bencher = "0.1.4"
 byteorder = "1.5.0"
 
+[dependencies]
+wide = "1.1.1" #TODO https://github.com/Lokathor/wide/commit/e6ddc6bcdce5507b2d061f6537de4e5a0e18fff0 обновить когда выйдет
+
+[workspace]
+members = [
+    "cross_simd"
+]
+
 [[bench]]
 name = "benches"
 harness = false

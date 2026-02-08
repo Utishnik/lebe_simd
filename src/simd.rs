@@ -6,6 +6,7 @@ use crate::io::ReadEndian;
 use crate::io::WriteEndian;
 use crate::Endian;
 use std::io::{Read, Result, Write};
+use wide::*;
 macro_rules! implement_simple_primitive_write {
     ($type: ident) => {
         impl<R: Read> ReadEndian<[$type]> for R {
@@ -107,7 +108,7 @@ macro_rules! implement_slice_io {
 
             fn write_as_little_endian(&mut self, value: &[$type]) -> Result<()> {
                 for number in value {
-                    self.write_as_little_endian(number)?; 
+                    self.write_as_little_endian(number)?;
                 }
 
                 Ok(())

@@ -1,0 +1,11 @@
+[package]
+name = "cross-simd"
+version = "0.1.0"
+authors = ["Utishnik"]
+edition = "2018"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+cpufeatures = "0.3.0"
