@@ -107,7 +107,7 @@ macro_rules! implement_slice_io {
 
             fn write_as_little_endian(&mut self, value: &[$type]) -> Result<()> {
                 for number in value {
-                    //self.write_as_little_endian(number)?; todo
+                    self.write_as_little_endian(number)?; 
                 }
 
                 Ok(())
