@@ -1,11 +1,11 @@
 [package]
 name = "lebe"
-version = "0.5.3"
-authors = ["johannesvollmer <contact@johannesvollmer.com>"]
+version = "0.5.4"
+authors = ["johannesvollmer <contact@johannesvollmer.com> + Utishnik"]
 edition = "2018"
 
 description = "Tiny, dead simple, high performance endianness conversions with a generic API"
-repository = "https://github.com/johannesvollmer/lebe"
+repository = "https://github.com/Utishnik/lebe_simd"
 documentation = "https://docs.rs/crate/lebe/"
 readme = "README.md"
 license = "BSD-3-Clause"
@@ -27,7 +27,8 @@ proc-macro = false
 maintenance = { status = "actively-developed" }
 
 [features]
-# simd = []
+simd = []
+default = ["simd"]
 
 [dev-dependencies]
 bencher = "0.1.5"

@@ -1,9 +1,10 @@
 extern crate lebe;
 
 use lebe::prelude::*;
+use lebe::simd::*;
 use std::mem;
 
-use byteorder::{WriteBytesExt, LittleEndian, BigEndian, ReadBytesExt};
+use byteorder::{BigEndian, LittleEndian, ReadBytesExt, WriteBytesExt};
 
 #[test]
 fn make_le_u32_slice() {
@@ -15,8 +16,7 @@ fn make_le_u32_slice() {
 
     if cfg!(target_endian = "little") {
         assert_eq!(n_le, [n])
-    }
-    else {
+    } else {
         assert_eq!(n_le, [u32::swap_bytes(n)])
     }
 }
@@ -31,8 +31,7 @@ fn make_be_u32_slice() {
 
     if cfg!(target_endian = "big") {
         assert_eq!(n_be, [n])
-    }
-    else {
+    } else {
         assert_eq!(n_be, [n.swap_bytes()])
     }
 }
@@ -47,8 +46,7 @@ fn make_le_u16_slice() {
 
     if cfg!(target_endian = "little") {
         assert_eq!(n_le, [n])
-    }
-    else {
+    } else {
         assert_eq!(n_le, [n.swap_bytes()])
     }
 }
@@ -64,8 +62,7 @@ fn make_le_i64_slice() {
 
     if cfg!(target_endian = "big") {
         assert_eq!(n_be, [n1, n2])
-    }
-    else {
+    } else {
         assert_eq!(n_be, [n1.swap_bytes(), n2.swap_bytes()])
     }
 }
@@ -97,8 +94,7 @@ fn into_be_i16() {
 
     if cfg!(target_endian = "big") {
         assert_eq!(be, i)
-    }
-    else {
+    } else {
         assert_eq!(be, i.swap_bytes())
     }
 }
@@ -110,8 +106,7 @@ fn into_be_u32() {
 
     if cfg!(target_endian = "big") {
         assert_eq!(be, i)
-    }
-    else {
+    } else {
         assert_eq!(be, i.swap_bytes())
     }
 }
@@ -150,11 +145,11 @@ fn cmp_read_le_f32() {
 }
 
 #[test]
-fn cmp_read_be_slice()  {
+fn cmp_read_be_slice() {
     let mut write_expected = Vec::new();
     let mut write_actual = Vec::new();
 
-    let data: Vec<f32> = (0..31*31).map(|i| i as f32).collect();
+    let data: Vec<f32> = (0..31 * 31).map(|i| i as f32).collect();
 
     for number in &data {
         write_expected.write_f32::<BigEndian>(*number).unwrap();
@@ -169,13 +164,15 @@ fn cmp_write_le_slice() {
     let mut write_expected = Vec::new();
     let mut write_actual = Vec::new();
 
-    let data: Vec<f32> = (0..31*31).map(|i| i as f32).collect();
+    let data: Vec<f32> = (0..31 * 31).map(|i| i as f32).collect();
 
     for number in &data {
         write_expected.write_f32::<LittleEndian>(*number).unwrap();
     }
 
-    write_actual.write_as_little_endian(data.as_slice()).unwrap();
+    write_actual
+        .write_as_little_endian(data.as_slice())
+        .unwrap();
 
     assert_eq!(write_actual, write_expected);
 }
@@ -192,20 +189,19 @@ fn cmp_write_le_u32() {
     assert_eq!(write_actual, write_expected);
 }
 
-
-
 #[test]
 fn cmp_write_le_slice_u64() {
-    let mut write_expected = Vec::new();
-    let mut write_actual = Vec::new();
+    let mut write_expected: Vec<u8> = Vec::new();
+    let mut write_actual: Vec<u8> = Vec::new();
 
-    let data: Vec<u64> = (1000..1000+310*31).map(|i| i as u64).collect();
+    let data: Vec<u64> = (1000..1000 + 310 * 31).map(|i| i as u64).collect();
 
     for number in &data {
         write_expected.write_u64::<LittleEndian>(*number).unwrap();
     }
-
-    write_actual.write_as_little_endian(data.as_slice()).unwrap();
+    write_actual
+        .write_as_little_endian(data.as_slice())
+        .unwrap();
 
     assert_eq!(write_actual, write_expected);
 }
